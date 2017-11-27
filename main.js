@@ -60,6 +60,7 @@ d3.json('data/earthquakes_4326_cali.geojson', function(error, geojson) {
     });
 
     // JS general update pattern, binding data points the path, so that for each data point there is a path drawn
+    // NOTE since we are creating multiple paths, not one, we need to call on data not datum
     vector = vector.data(geojson.features)
                     .enter().append('path')
                     .attr('d', path)
@@ -106,10 +107,10 @@ function zoomed() {
     // JS General update pattern part; removing old elements
     image.exit().remove();
 
-    // loading tile images of the map
+    // we then use the data and bind it our image selections 
     image.enter().append('image')
         .attr('xlink:href', function(d) {
-            // here we are returning url of the image
+            // this function returns very specific maps that will fit our tiles based on the data that was entered
             return 'http://' + 'abc'[d[1] % 3] + '.basemaps.cartocdn.com/rastertiles/voyager/' +
                 d[2] + "/" + d[0] + "/" + d[1] + ".png";
         })
